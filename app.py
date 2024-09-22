@@ -380,7 +380,7 @@ def del_aluno(query: AlunoBuscaSchemaPorNome):
 
     # ROTAS RELATIVAS A SAUDEPARAMETROS
 
-@app.post('/aluno/<int:aluno_id>/saude_parametros', tags=[saude_parametros_aluno_tag],
+@app.post('/saude_parametros_aluno', tags=[saude_parametros_aluno_tag],
           responses={"200": SaudeParametrosViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def predict(form: SaudeParametrosSchema):
     """Adiciona SaudeParametros ao banco de dados
@@ -388,7 +388,7 @@ def predict(form: SaudeParametrosSchema):
     Devolve uma representação de SaudeParametros e diagnósticos associados.
 
     Args:
-        aluno_id (int) : id do aluno
+        aluno_nome (str) : nome do aluno
         age (int) : idade
         sex (int) : sexo
         cp (int) : tipo de dor no peito
@@ -398,7 +398,7 @@ def predict(form: SaudeParametrosSchema):
         restecg (int) : Resultados de eletrocardiograma em repouso
         thalachh (int) : Máxima frequencia cardíaca atingida
         exng (int) : Angina induzida por exercício
-        oldpeak (int) : Depressão de ST induzida por exercício relativa ao repouso
+        oldpeak (float) : Depressão de ST induzida por exercício relativa ao repouso
         slp (int) : Inclinação do Pico de exercício do segmento ST
         caa (int) : Número de vasos principais
         thall (int) : Talassemia 
@@ -409,19 +409,20 @@ def predict(form: SaudeParametrosSchema):
 
     """
 
-    preprocessador = PreProcessador()
-    modelo = Model()
-
-    X_input = preprocessador.preparar_form(form)
-
     model_path = "./MachineLearning/models/final_best_model_heart.pkl"
 
-    modelo.carrega_modelo(model_path)
+    X_input = PreProcessador.preparar_form(form)
 
-    output = int(modelo.realiza_predicao(modelo, X_input[0]))
+    modelo = Model(model_path)
+
+    modelo.carrega_modelo()
+
+    output = modelo.realiza_predicao(X_input)
+
+    print(f'Predição: {output}')
 
     saude_parametros = SaudeParametros(
-        aluno_id = form.aluno_id,
+        aluno_nome = form.aluno_nome,
         age = form.age,
         sex = form.sex,             
         cp = form.cp,
@@ -438,7 +439,7 @@ def predict(form: SaudeParametrosSchema):
         output = output
         )
 
-    logger.debug(f"Adicionando parametros de saude do aluno: '{saude_parametros.aluno_id}'")
+    logger.debug(f"Adicionando parametros de saude do aluno: '{saude_parametros.aluno_nome}'")
     try:
         # Criando conexão com o banco de dados
         session = Session()
@@ -446,18 +447,106 @@ def predict(form: SaudeParametrosSchema):
         session.add(saude_parametros)
         # Efetivando o comando de adição de novo item na tabela
         session.commit()
-        logger.debug(f"Adicionado parametros de saude para o aluno de id: '{saude_parametros.aluno_id}'")
+        logger.debug(f"Adicionado parametros de saude para o aluno de id: '{saude_parametros.aluno_nome}'")
         return ""
 
     except IntegrityError as e:
         # A duplicidade do id de aluno é a provável razão do IntegrityError
         error_msg = "Aluno de mesmo id já salvo na base :/"
-        logger.warning(f"Erro ao adicionar aluno de id '{saude_parametros.aluno_id}', {error_msg}")
+        logger.warning(f"Erro ao adicionar aluno de id '{saude_parametros.aluno_nome}', {error_msg}")
         return {"mensagem": error_msg}, 409
 
     except Exception as e:
         # Caso ocorra um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
-        logger.warning(f"Erro ao adicionar saude_parametros '{saude_parametros.aluno_id}', {error_msg}")
+        logger.warning(f"Erro ao adicionar saude_parametros '{saude_parametros.aluno_nome}', {error_msg}")
         return {"mensagem": error_msg}, 400
 
+
+
+@app.get('/saude_parametros_alunos', tags=[saude_parametros_aluno_tag],
+         responses={"200": SaudeParametrosViewSchema, "404": ErrorSchema})
+def get_saude_parametros_alunos():
+    """Lista todos os alunos e respectivos parametros de saude na base
+    Args:
+       none
+
+    Returns:
+        list: lista de alunos e respectivos parametros de saude cadastrados na base
+    """
+    logger.debug("Coletando dados sobre todos os alunos")
+    # Criando conexão com a base
+    session = Session()
+    # Buscando todos os pacientes
+    saude_parametros_alunos = session.query(SaudeParametros).all()
+
+    if not saude_parametros_alunos:
+        # Se não houver alunos
+        return {"saude parametros": []}, 200
+    else:
+        logger.debug(f"%d alunos encontrados" % len(saude_parametros_alunos))
+        print(saude_parametros_alunos)
+        return apresenta_saude_parametros_alunos(saude_parametros_alunos), 200
+
+
+
+@app.get('/saude_parametros_aluno', tags=[saude_parametros_aluno_tag],
+         responses={"200": SaudeParametrosViewSchema, "404": ErrorSchema})
+def get_saude_parametros_aluno(query: SaudeParametrosBuscaSchemaPorNome):
+    """Faz a busca pelos parametros de saude de um aluno cadastrado na base a partir do nome
+
+    Args:
+        nome (str): nome do aluno
+
+    Returns:
+        dict: representação do aluno e diagnóstico associado
+    """
+
+    aluno_nome = query.aluno_nome
+    logger.debug(f"Coletando dados sobre o aluno #{aluno_nome}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    saude_parametros_aluno = session.query(SaudeParametros).filter(SaudeParametros.aluno_nome == aluno_nome).first()
+
+    if not saude_parametros_aluno:
+        # se o aluno não foi encontrado
+        error_msg = f"Aluno {aluno_nome} não encontrado na base :/"
+        logger.warning(f"Erro ao buscar produto '{aluno_nome}', {error_msg}")
+        return {"mesage": error_msg}, 404
+    else:
+        logger.debug(f"Aluno encontrado: '{aluno_nome}'")
+        # retorna a representação do paciente
+        return apresenta_saude_parametros(saude_parametros_aluno), 200
+
+
+@app.delete('/saude_parametros_aluno', tags=[saude_parametros_aluno_tag],
+            responses={"200": SaudeParametrosViewSchema, "404": ErrorSchema})
+def remove_saude_parametros_aluno(query: SaudeParametrosBuscaSchemaPorNome):
+    """Remove parametros de saude de um aluno cadastrado na base a partir do nome
+
+    Args:
+        nome (str): nome do aluno
+
+    Returns:
+        msg: Mensagem de sucesso ou erro
+    """
+
+    aluno_nome = unquote(query.aluno_nome)
+    logger.debug(f"Removendo dados de saude do aluno #{aluno_nome}")
+
+    # Criando conexão com a base
+    session = Session()
+
+    # Buscando Parametros de Saude de Aluno
+    saude_parametros_aluno = session.query(SaudeParametros).filter(SaudeParametros.aluno_nome == aluno_nome).first()
+
+    if not saude_parametros_aluno:
+        error_msg = "Aluno não encontrado na base :/"
+        logger.warning(f"Erro ao remover aluno '{aluno_nome}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        session.delete(saude_parametros_aluno)
+        session.commit()
+        logger.debug(f"Removido parametros de saude do aluno #{aluno_nome}")
+        return {"message": f"Parametros de Saúde do Aluno {aluno_nome} removido com sucesso!"}, 200

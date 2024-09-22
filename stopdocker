@@ -1,0 +1,4 @@
+docker ps -a | xargs docker stop
+docker ps -a | xargs docker rm
+docker rmi -f bjj-gui
+docker rmi -f bjj-api

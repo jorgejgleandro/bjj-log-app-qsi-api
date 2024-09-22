@@ -13,7 +13,7 @@ class Aluno(Base):
     data_de_inicio = Column(DateTime)
     graduacao = Column(String(140))
     endereco = Column(String(300))
-    saude_parametros = relationship("SaudeParametro", back_populates="owner")
+    saude_parametros = relationship("SaudeParametros", back_populates="owner")
 
     def __init__(self, nome:str, graduacao:str, data_de_nascimento:str, data_de_inicio:str, endereco:str):
         """
@@ -31,4 +31,3 @@ class Aluno(Base):
         self.data_de_inicio = datetime.strptime("%s" % data_de_inicio, "%d/%m/%Y")             
         self.graduacao = graduacao
         self.endereco = endereco
-        self.saude_parametros = ''

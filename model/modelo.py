@@ -3,17 +3,27 @@ import joblib
 from model.preprocessador import PreProcessador
 
 class Model:
+
+    path = ''
     
-    model = ''
+    def __init__(self, path:str):
+        """
+        Inicializa Modelo
+
+        Argumentos:
+            path: localização do arquivo do modelo no sistema de arquivos.
+            X_input: entrada
+        """
+        self.path = path
     
-    def carrega_modelo(self, path):
+    def carrega_modelo(self):
         """
            Carrega um pipeline, includindo scaler e modelo
            Dependendo se o final for .pkl ou .joblib, carregamos de uma forma ou de outra           
         """
         
-        if path.endswith('.pkl'):
-            with open(path, 'rb') as file:
+        if self.path.endswith('.pkl'):
+            with open(self.path, 'rb') as file:
                 self.model = joblib.load(file, 'r')
         else:
             raise Exception('Formato de arquivo não suportado')
@@ -21,5 +31,5 @@ class Model:
     def realiza_predicao(self, X_input):
         """Realiza a predição de um paciente com base no modelo treinado
         """
-        diagnosis = self.model.predict(X_input)
-        return diagnosis
+        output = int(self.model.predict(X_input)[0])
+        return output

@@ -4,12 +4,12 @@ from typing import Optional, List
 from model.aluno import Aluno
 from datetime import datetime
 
-from schemas import ComentarioSchema, SaudeParametrosSchema, SaudeParametrosViewSchema
+from schemas import ComentarioSchema, SaudeParametrosViewSchema
 
 class AlunoSchema(BaseModel):
     """ Define como um novo Aluno a ser inserido deve ser representado
     """
-    nome: str = "João da Silva"
+    nome: str = "Mateus"
     data_de_nascimento: str = "15/05/1975"
     data_de_inicio: str = "11/06/2023"
     graduacao: str = "branca"
@@ -36,13 +36,13 @@ class AlunoBuscaSchemaPorTermo(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base em um termo no nome do Aluno.
     """
-    nome: str = "João"
+    nome: str = "Mateus"
 
 class AlunoBuscaSchemaPorNome(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base no nome do Aluno.
     """
-    nome: str = "João da Silva"
+    nome: str = "Mateus"
 
 class AlunoBuscaSchemaPorID(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
@@ -78,12 +78,12 @@ class AlunoViewSchema(BaseModel):
     """ Define como um aluno será devolvido: aluno.
     """
     id: int = 1
-    nome: str = "João da Silva"
+    nome: str = "Mateus"
     data_de_nascimento: str = "15/05/1975"
     data_de_inicio: str = "11/06/2023"
     graduacao: str = "branca"
     endereco: str = "Rua Nelson Righi, Parque dos Ipes, Jaguariuna, SP" 
-    saude_parametros: list[SaudeParametrosView] = []
+    saude_parametros: List[SaudeParametrosViewSchema] = []
 
 
 class AlunoDelSchema(BaseModel):

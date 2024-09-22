@@ -4,7 +4,7 @@ import numpy as np
 
 class PreProcessador:
 
-    def separa_teste_treino(self, dataset, percentual_teste, seed=37):
+    def separa_teste_treino(dataset, percentual_teste, seed=37):
         """ Cuida de todo o pré-processamento. """
 
         # divisão em treino e teste
@@ -13,7 +13,7 @@ class PreProcessador:
                                                                   seed)       
         return (X_train, X_test, Y_train, Y_test)
     
-    def __preparar_holdout(self, dataset, percentual_teste, seed):
+    def __preparar_holdout(dataset, percentual_teste, seed):
         """ Divide os dados em treino e teste usando o método holdout.
         Assume que a variável target está na última coluna.
         O parâmetro test_size é o percentual de dados de teste.
@@ -31,7 +31,7 @@ class PreProcessador:
                             form.trtbps, 
                             form.chol, 
                             form.fbs, 
-                            form.restceg,
+                            form.restecg,
                             form.thalachh,
                             form.exng,
                             form.oldpeak,
