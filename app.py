@@ -391,7 +391,7 @@ def predict(form: SaudeParametrosSchema):
         aluno_nome (str) : nome do aluno
         age (int) : idade
         sex (int) : sexo - (1: M, 0:F)
-        cp (int) : tipo de dor no peito (0, 1, 2, 3, 4)
+        cp (int) : tipo de dor no peito - (1 = angina típica; 2 = angina átipica; 3 = dor sem angina; 0 = assintomática)
         trtbps (int) : pressão sanguinea em repouso (mmHg)
         chol (int) :  colesterol
         fbs (int) : açúcar no Sangue em Jejum maior que 120mg/dl (1: Sim, 0: Não)

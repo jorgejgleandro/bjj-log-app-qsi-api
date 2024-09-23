@@ -32,19 +32,19 @@ class SaudeParametros(Base):
             aluno_nome = nome do aluno
             age = idade do aluno
             sex = sexo do aluno
-            cp = Chest Pain type (tipo de dor no peito)
+            cp = Chest Pain type (tipo de dor no peito) - (1 = angina típica; 2 = angina átipica; 3 = dor sem angina; 0 = assintomática)
             trtbps	= Resting blood pressure in mmHg - Pressão sanguinea em repouso em mmHg
             chol = Cholestoral in mg/dl fetched via BMI sensor - Colesterol em mg/dl obtido por sensor BMI
-            fbs	= Fasting blood sugar > 120 mg/dl - Nível de açúcar no sangue em jejum
-            restecg	= Resting electrocardiographic results - Resultados de eletrocardiograma em repouso
+            fbs	= Fasting blood sugar > 120 mg/dl - Nível de açúcar no sangue em jejum - (1 = Sim; 0 = Não)
+            restecg	= Resting electrocardiographic results - Resultados de eletrocardiograma em repouso - (1 = normal; 2 = anormalidade na onda ST-T; 0 = hipertrofia)
             thalachh = Maximum heart rate achieved - Frequencia cardíaca máxima atingida
-            exng = Exercise induced angina - Nível de angina induzida por exercício
+            exng = Exercise induced angina - Nível de angina induzida por exercício  - (1 = Sim; 0 = Náo)
             oldpeak	= ST depression induced by exercise relative to rest - Depressão de ST/ECG induzida por 
                       exercício em relação ao repouso
-            slp	= Slope of the peak exercise ST segment - Inclinação do pico do segmento ST por exercício
+            slp	= Slope of the peak exercise ST segment - Inclinação do pico do segmento ST por exercício - (2 = subindo; 1 = plato; 0 = descendo)
             caa	= The number of major vessels (0-3) - Número de vasos 
-            thall= A blood disorder called thalassemia - Uma disordem sanguinea chamada talassemia
-            output = diagnóstico 
+            thall= A blood disorder called thalassemia - Uma disordem sanguinea chamada talassemia - (2 = normal; 1 = defeito corrigido; 3 = defeito reversível)
+            output = diagnóstico  (0 = baixo risco; 1 = alto risco)
         """
         self.aluno_nome = aluno_nome
         self.age = age
