@@ -1,2 +1,2 @@
-docker build -t bjj-api .
-docker run -p 5000:5000 bjj-api
+docker build -t bjj-api-image .
+docker run --name bjj-api-container -p 5000:5000 bjj-api-image

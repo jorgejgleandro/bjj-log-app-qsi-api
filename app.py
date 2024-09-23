@@ -420,6 +420,8 @@ def predict(form: SaudeParametrosSchema):
     preprocessador.define_formulario(form)
     X_input = preprocessador.preparar_form()
 
+    print(f'Shae of X_input: {X_input.shape}')
+
     output = int(modelo.realiza_predicao(X_input)[0])
 
     print(f'Predição: {output}')
