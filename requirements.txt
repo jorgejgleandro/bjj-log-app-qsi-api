@@ -6,3 +6,4 @@ SQLAlchemy==2.0.31
 SQLAlchemy_Utils==0.41.2
 scikit-learn
 pandas
+pytest

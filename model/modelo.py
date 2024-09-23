@@ -32,5 +32,5 @@ class Model:
     def realiza_predicao(self, X_input:list):
         """Realiza a predição de um paciente com base no modelo treinado
         """
-        output = int(self.model.predict(X_input)[0])
+        output = self.model.predict(X_input)
         return output

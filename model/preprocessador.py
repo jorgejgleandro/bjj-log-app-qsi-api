@@ -11,7 +11,7 @@ class PreProcessador:
 
     def preparar_form(self):
         """ Prepara os dados recebidos do front para serem usados no modelo. """
-        X_input = np.array([self.form.age,
+        X_input = np.array([self.form.age, 
                             self.form.sex,
                             self.form.cp,
                             self.form.trtbps,

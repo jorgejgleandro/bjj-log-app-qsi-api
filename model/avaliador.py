@@ -1,5 +1,6 @@
 from sklearn.metrics import balanced_accuracy_score, recall_score, precision_score, f1_score
 from model.modelo import Model
+import numpy as np
 
 class Avaliador:
 
