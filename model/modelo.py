@@ -5,10 +5,11 @@ from model.preprocessador import PreProcessador
 class Model:
 
     path = ''
+    model = None
     
-    def __init__(self, path:str):
+    def define_caminho(self, path:str):
         """
-        Inicializa Modelo
+        Define caminho do modelo
 
         Argumentos:
             path: localização do arquivo do modelo no sistema de arquivos.
@@ -28,7 +29,7 @@ class Model:
         else:
             raise Exception('Formato de arquivo não suportado')
     
-    def realiza_predicao(self, X_input):
+    def realiza_predicao(self, X_input:list):
         """Realiza a predição de um paciente com base no modelo treinado
         """
         output = int(self.model.predict(X_input)[0])

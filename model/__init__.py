@@ -12,6 +12,7 @@ from model.saudeparametros import SaudeParametros
 from model.preprocessador import PreProcessador
 from model.modelo import Model
 from model.carregador import Carregador
+from model.avaliador import Avaliador
 
 db_path = "database/"
 # Verifica se o diretorio não existe

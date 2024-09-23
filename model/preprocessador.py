@@ -4,48 +4,27 @@ import numpy as np
 
 class PreProcessador:
 
-    def separa_teste_treino(dataset, percentual_teste, seed=37):
-        """ Cuida de todo o pré-processamento. """
+    form = ''
 
-        # divisão em treino e teste
-        X_train, X_test, Y_train, Y_test = self.__preparar_holdout(dataset,
-                                                                  percentual_teste,
-                                                                  seed)       
-        return (X_train, X_test, Y_train, Y_test)
-    
-    def __preparar_holdout(dataset, percentual_teste, seed):
-        """ Divide os dados em treino e teste usando o método holdout.
-        Assume que a variável target está na última coluna.
-        O parâmetro test_size é o percentual de dados de teste.
-        """
-        dados = dataset.values
-        X = dados[:, 0:-1]
-        Y = dados[:, -1]
-        return train_test_split(X, Y, test_size=percentual_teste, random_state=seed)
-    
-    def preparar_form(form):
+    def define_formulario(self, form):
+        self.form = form
+
+    def preparar_form(self):
         """ Prepara os dados recebidos do front para serem usados no modelo. """
-        X_input = np.array([form.age, 
-                            form.sex, 
-                            form.cp, 
-                            form.trtbps, 
-                            form.chol, 
-                            form.fbs, 
-                            form.restecg,
-                            form.thalachh,
-                            form.exng,
-                            form.oldpeak,
-                            form.slp,
-                            form.caa,
-                            form.thall
+        X_input = np.array([self.form.age,
+                            self.form.sex,
+                            self.form.cp,
+                            self.form.trtbps,
+                            self.form.chol,
+                            self.form.fbs,
+                            self.form.restecg,
+                            self.form.thalachh,
+                            self.form.exng,
+                            self.form.oldpeak,
+                            self.form.slp,
+                            self.form.caa,
+                            self.form.thall
                         ])
         # Faremos o reshape para que o modelo entenda que estamos passando
         X_input = X_input.reshape(1, -1)
         return X_input
-    
-    def scaler(X_train):
-        """ Normaliza os dados. """
-        # normalização/padronização
-        scaler = joblib.load(open('./MachineLearning/scalers/minmax_scaler_diabetes.pkl', 'rb'))
-        reescaled_X_train = scaler.transform(X_train)
-        return reescaled_X_train

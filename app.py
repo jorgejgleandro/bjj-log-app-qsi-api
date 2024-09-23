@@ -390,18 +390,18 @@ def predict(form: SaudeParametrosSchema):
     Args:
         aluno_nome (str) : nome do aluno
         age (int) : idade
-        sex (int) : sexo
-        cp (int) : tipo de dor no peito
+        sex (int) : sexo - (1: M, 0:F)
+        cp (int) : tipo de dor no peito (0, 1, 2, 3, 4)
         trtbps (int) : pressão sanguinea em repouso (mmHg)
         chol (int) :  colesterol
-        fbs (int) : açúcar no Sangue em Jejum maior que 120mg/dl
-        restecg (int) : Resultados de eletrocardiograma em repouso
+        fbs (int) : açúcar no Sangue em Jejum maior que 120mg/dl (1: Sim, 0: Não)
+        restecg (int) : Resultados de eletrocardiograma em repouso (0: Normal, 1: Anormalidade ma onda ST-T, 2: hipertrofia do ventrículo esquerdo)
         thalachh (int) : Máxima frequencia cardíaca atingida
-        exng (int) : Angina induzida por exercício
+        exng (int) : Angina induzida por exercício (1: Sim, 0: Não)
         oldpeak (float) : Depressão de ST induzida por exercício relativa ao repouso
-        slp (int) : Inclinação do Pico de exercício do segmento ST
-        caa (int) : Número de vasos principais
-        thall (int) : Talassemia 
+        slp (int) : Inclinação do Pico de exercício do segmento ST (1: subindo, 2: platô, 3: descendo)
+        caa (int) : Número de vasos principais coloridos por fluorosopia (0, 1, 2, 3)
+        thall (int) : Talassemia (3: Normal, 6: Defeito corrigido, 7: Defeito reversível)
 
 
     Returns:
@@ -411,11 +411,14 @@ def predict(form: SaudeParametrosSchema):
 
     model_path = "./MachineLearning/models/final_best_model_heart.pkl"
 
-    X_input = PreProcessador.preparar_form(form)
+    modelo = Model()
+    preprocessador = PreProcessador()
 
-    modelo = Model(model_path)
-
+    modelo.define_caminho(model_path)
     modelo.carrega_modelo()
+
+    preprocessador.define_formulario(form)
+    X_input = preprocessador.preparar_form()
 
     output = modelo.realiza_predicao(X_input)
 
