@@ -1,6 +1,6 @@
 # *Brazilian Jiu-Jitsu Training Log - API*
 
-Esta é uma aplicação web que permite o acompanhamento objetivo do progresso do aprendizado de técnicas de Jiu-Jitsu, um pequeno projeto que constitui o MVP a ser apresentado à disciplina **Arquitetura de Software** do curso de **Pós-graduação em Engenharia de Software - PUC-Rio**
+Esta é uma aplicação web que permite o acompanhamento objetivo do progresso do aprendizado de técnicas de Jiu-Jitsu, um pequeno projeto que constitui o MVP a ser apresentado à disciplina **Qualidade de Software, Segurança e Sistemas Inteligentes** do curso de **Pós-graduação em Engenharia de Software - PUC-Rio**
 
 ## Descrição
 
@@ -19,17 +19,12 @@ Veja o [vídeo de apresentação](https://youtu.be/JNw1kgE5TsQ) no Youtube.
 
 ---
 
-<img src="mvp-3-diagram.png" alt="Arquitetura do BJJ Training Log" title="Brazilian Jiu-Jitsu Training Image" width="600" class="center"/>
-
-<center> Figura: Arquitetura do BJJ Training Log </center>
-
----
 ## Baixar repositório
 
 Faça uma cópia desse repositório para sua máquina local, preferencialmente com o comando abaixo. 
 
 ```
-git clone git@github.com:jorgejgleandro/bjj-log-app-arq-soft-api.git
+git clone git@github.com:jorgejgleandro/bjj-log-app-qsi-api.git
 ```
 
 Acesse a **branch** *main* do repositório:
