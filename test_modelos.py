@@ -24,7 +24,7 @@ X = carregadorX.pegar_dados()
 carregadorY.carregar_dados(url_Y_dados, colunas_y)
 Y = carregadorY.pegar_dados()
     
-limiar = 0.9
+limiar = 0.83
 models_paths = pathlib.Path('./MachineLearning/models/')
 models_paths_files = models_paths.glob("*.pkl")
 models_paths_list = [(str(model_path), limiar) for model_path in models_paths_files]
