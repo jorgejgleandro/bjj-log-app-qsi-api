@@ -7,7 +7,7 @@ class SaudeParametros(Base):
     __tablename__ = 'saude_parametros'
 
     id = Column("pk_saude", Integer, primary_key=True)
-    aluno_nome = Column(Integer, ForeignKey('aluno.nome'))
+    aluno_nome = Column(String(140))
     age = Column(Integer)
     sex = Column(String(5))
     cp = Column(Integer)
@@ -22,9 +22,8 @@ class SaudeParametros(Base):
     caa	= Column(Integer)
     thall= Column(Integer)
     output=Column(Integer, nullable=True)
-    owner = relationship("Aluno", back_populates="saude_parametros")
 
-    def __init__(self, aluno_nome:str, age:int, sex:str, cp:int, trtbps:int, chol:int, fbs:int, restecg:int, thalachh:int,exng:int, oldpeak:int, slp:int, caa:int, thall:int, output:int):
+    def __init__(self, aluno_nome:str, age:int, sex:str, cp:int, trtbps:int, chol:int, fbs:int, restecg:int, thalachh:int,exng:int, oldpeak:float, slp:int, caa:int, thall:int, output:int):
         """
         Registra os parâmetros de saude do coração do aluno
 
