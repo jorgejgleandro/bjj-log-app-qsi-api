@@ -1,5 +1,5 @@
 from flask_openapi3 import OpenAPI, Info, Tag
-from flask import redirect
+from flask import redirect, jsonify
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
@@ -453,7 +453,7 @@ def predict(form: SaudeParametrosSchema):
         # Efetivando o comando de adição de novo item na tabela
         session.commit()
         logger.debug(f"Adicionado parametros de saude para o aluno de id: '{saude_parametros.aluno_nome}'")
-        return ""
+        return jsonify({"output": output}), 200
 
     except IntegrityError as e:
         # A duplicidade do id de aluno é a provável razão do IntegrityError
