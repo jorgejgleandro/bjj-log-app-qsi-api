@@ -19,6 +19,12 @@ Veja o [vídeo de apresentação](https://youtu.be/JNw1kgE5TsQ) no Youtube.
 
 ---
 
+<img src="mvp-4-diagram.png" alt="Arquitetura do BJJ Training Log" title="Brazilian Jiu-Jitsu Training Image" width="600" style="display:block; margin:auto"/>
+
+<center> Figura: Arquitetura do BJJ Training Log </center>
+
+---
+
 ## Baixar repositório
 
 Faça uma cópia desse repositório para sua máquina local, preferencialmente com o comando abaixo. 
@@ -36,7 +42,7 @@ git checkout main
 ---
 ## Instalação e Execução
 
-Vale salientar que, para executar a aplicação com o componente  [*frontend*](https://github.com/jorgejgleandro/bjj-training-log-arq-soft-frontend), é necessário que este componente *backend* esteja em execução.
+Vale salientar que, para executar a aplicação com o componente  [*frontend*](https://github.com/jorgejgleandro/bjj-log-app-qsi-front), é necessário que este componente *backend* esteja em execução.
 
 A presente aplicação foi desenvolvida em **Linux Ubuntu 20.04** e **Windows 11**, mediante o *WSL* (Subsistema do Windows para Linux), mas os passos para instalação deveriam ser agnósticos ao sistema operacional.
 
@@ -89,3 +95,20 @@ Execute o container, por meio do seguinte comando, **como administrador**:
 $ docker run -p 5000:5000 nome_da_sua_imagem
 ```
 Uma vez executando, para verificar o status dessa API em execução, basta abrir o [http://localhost:5000/#/](http://localhost:5000/#/) no navegador.
+
+Para obter a implementação do **frontend**, dirija-se ao repositório do componente [*frontend*](https://github.com/jorgejgleandro/bjj-log-app-qsi-front) e siga aquelas instruções.
+
+
+## Doença Cardíaca - Predição com modelo de Aprendizagem de Máquina
+
+Esta aplicação é equipada com um modelo treinado de Aprendizagem de Máquina para predição de alto risco de ataque cardíaco em um praticante, durante uma sessão de treinamento.
+
+Para tanto, o usuário deve fornecer resultados de exames com os 13 parâmetros solicitados na interface. No ato de submissão dos parâmetros de saúde cardíaca de um aluno, o *frontend* realiza uma requisição ao *backend*, em que está embarcado o objeto que representa o modelo treinado de Aprendizagem de Máquina. Então o *backend* persiste o valor da predição no campo correspondente no banco de dados e devolve este valor como resposta à requisição, que é imediatamente exibido na listagem atualizada com esse registro.
+
+---
+
+<img src="lista-parametros-cadastrados-saida.png" align=center alt="Lista de Parâmetros de Saúde e Predição de Risco de Ataque Cardíaco (1: alto risco, 0: baixo risco)" title="Brazilian Jiu-Jitsu Training - Parametros de Saude Image" width="600" style="display:block; margin:auto"/>
+
+<center> Figura: Lista de Parâmetros de Saúde com Predição de Risco de Ataque Cardíaco por modelo de Aprendizagem de Máquina (1:alto risco, 0: baixo risco)</center>
+
+---
