@@ -10,7 +10,6 @@ carregadorY = Carregador()
 modelo = Model()
 avaliador = Avaliador()
 
-
 # Rótulos das Características
 colunas_x = ['age', 'sex', 'cp', 'trtbps', 'chol', 'fbs','restecg', 'thalachh', 'exng', 'oldpeak', 'slp', 'caa', 'thall']
 colunas_y = ['output']
@@ -38,7 +37,6 @@ models_list = [(str(model_file), limiar) for model_file in models_files]
 @pytest.mark.parametrize("model_path, expected", models_list)
 def test_models(model_path, expected):
     # Importando o modelo
-    print(model_path)
     modelo = Model()
     modelo.define_caminho(model_path)
     modelo.carrega_modelo()
